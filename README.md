@@ -1,6 +1,12 @@
 
-
+======== Front end -UI ==========
 Live URl : https://62d54debf459cd312d10d671--front-crud-profile-image.netlify.app/
+
+
+---backend  node-mongoose---
+node live link : https://crud-image-profile-node.herokuapp.com/
+node reppo link : https://github.com/parthardeshana/crud_image_profile_node
+
 
 
 Runs the app in the development mode.\
