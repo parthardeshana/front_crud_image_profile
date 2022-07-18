@@ -30,7 +30,7 @@ const ProfileForm = () => {
             })}
             onSubmit={values => {
                 console.log("val :::", values)
-                axios.post("https://crud-image-profile-node.herokuapp.com/product", values,
+                axios.post("http://localhost:9000/product", values,
                     { headers: { Authorization: `Bearer ${token}` } })
                     .then((res) => {
                         console.log("reee", res.data)

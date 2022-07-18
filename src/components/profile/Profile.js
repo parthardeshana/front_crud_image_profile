@@ -14,7 +14,7 @@ const Profile = () => {
     const [posts, setPosts] = useState([]);
 
     const getPost = async () => {
-        let res = await axios.get("https://crud-image-profile-node.herokuapp.com/product",
+        let res = await axios.get("http://localhost:9000/product",
             { headers: { Authorization: `Bearer ${token}` } })
         let temp = res.data.data;
         console.log("ress", res.data.profile_link);
@@ -27,9 +27,9 @@ const Profile = () => {
     }
 
     const deletePost = async (id) => {
-        let res = await axios.delete(`https://crud-image-profile-node.herokuapp.com/product/${id}`,
+        let res = await axios.delete(`http://localhost:9000/product/${id}`,
             { headers: { Authorization: `Bearer ${token}` } })
-        if (res.data.status) {
+        if (res.status) {
             getPost()
         } else {
             alert("something is wrong")
@@ -65,15 +65,8 @@ const Profile = () => {
             renderCell: (event) => {
                 return (
                     <div style={{ display: "flex", justifyContent: "space-between" }}>
-                        {/* <EditIcon
-                            style={{ marginRight: "20px" }}
-                            onClick={() => console.log(`/add-language/${e.row.id}/${e.row.name}`)}
-                        // onClick={() => navigate(`/add-language/${e.row.id}/${e.row.name}`)}
-                        /> */}
                         <DeleteIcon
                             onClick={() => {
-                                console.log("eee ooooooooooooo", event.row.id)
-                                // confirm(`Do you wantt to Delete ${e.row.name}?`) && 
                                 deletePost(event.row.id)
                             }
                             }
