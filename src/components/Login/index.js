@@ -13,9 +13,8 @@ const Login = () => {
             password: ''
         },
         onSubmit: values => {
-            axios.post("http://localhost:9000/admin/login", values)
+            axios.post("https://crud-image-profile-node.herokuapp.com/admin/login", values)
                 .then((res) => {
-                    console.log("reee", res.data.data.accessToken)
                     if (res.status === 200) {
                         localStorage.setItem("token", res.data.data.accessToken)
                         navigate('/product')

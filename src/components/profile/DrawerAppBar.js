@@ -72,7 +72,6 @@ function DrawerAppBar(props) {
                     <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
                         {navItems.map((item) => (
                             <Button key={item} sx={{ color: '#fff' }} onClick={(e) => {
-                                console.log("item", item);
                                 if (item === "logout") {
                                     localStorage.clear()
                                     navigate(`/${item}`)

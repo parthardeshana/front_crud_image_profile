@@ -14,10 +14,9 @@ const Profile = () => {
     const [posts, setPosts] = useState([]);
 
     const getPost = async () => {
-        let res = await axios.get("http://localhost:9000/product",
+        let res = await axios.get("https://crud-image-profile-node.herokuapp.com/product",
             { headers: { Authorization: `Bearer ${token}` } })
         let temp = res.data.data;
-        console.log("ress", res.data.profile_link);
         let tempArr = []
         temp.forEach((e) => {
             let a = { ...e, id: e._id };
@@ -27,7 +26,7 @@ const Profile = () => {
     }
 
     const deletePost = async (id) => {
-        let res = await axios.delete(`http://localhost:9000/product/${id}`,
+        let res = await axios.delete(`https://crud-image-profile-node.herokuapp.com/product/${id}`,
             { headers: { Authorization: `Bearer ${token}` } })
         if (res.status) {
             getPost()
@@ -52,7 +51,6 @@ const Profile = () => {
             renderCell: (e) => {
                 return (
                     <div style={{ display: "flex", justifyContent: "space-between" }}>
-                        {console.log("e", e.value)}
                         {/* <img width="50" src={e.value} alt="" /> */}
                     </div>
                 );

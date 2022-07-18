@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Field, Form, Formik } from 'formik';
+import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { TextField, Button } from '@mui/material';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -19,21 +19,23 @@ const ProfileForm = () => {
 
     return (
         <Formik
-            initialValues={{ name: '', price: '', profile_image: {} }}
+            initialValues={{ name: '', price: '', profile_image: "", profile_base64: "" }}
             validationSchema={Yup.object({
                 name: Yup.string()
                     .max(15, 'Must be 15 characters or less')
                     .required('Required'),
-                price: Yup.string()
-                    .max(20, 'Must be 20 characters or less')
+                price: Yup.number()
+                    .max(1000, 'value Must be 1000 or less')
                     .required('Required'),
+                profile_image: Yup.mixed().required('A file is required')
+                    .test('fileFormat', 'Please Enter valid image formate', (value) => {
+                        return value && ['image/png', 'image/jpeg'].includes(value.type);
+                    }),
             })}
             onSubmit={values => {
-                console.log("val :::", values)
                 axios.post("http://localhost:9000/product", values,
                     { headers: { Authorization: `Bearer ${token}` } })
                     .then((res) => {
-                        console.log("reee", res.data)
                         if (res.data.success) {
                             navigate('/product')
                         } else {
@@ -44,10 +46,10 @@ const ProfileForm = () => {
             }
             }
         >
-
             {props => {
                 const {
-                    setFieldValue
+                    setFieldValue,
+                    values
                 } = props;
 
                 return (<>
@@ -62,6 +64,7 @@ const ProfileForm = () => {
                             variant="outlined"
                             size='small'
                             fullWidth />
+                        <ErrorMessage name="name" />
                         <br />
                         <Field
                             component={MyInput}
@@ -72,7 +75,10 @@ const ProfileForm = () => {
                             variant="outlined"
                             size='small'
                             fullWidth />
+                        <ErrorMessage name="price" />
                         <br />
+
+                        <img width="90" src={values.profile_base64 && values.profile_base64} alt="" />
                         <input
                             name="profile_image"
                             type="file"
@@ -83,10 +89,13 @@ const ProfileForm = () => {
                                 reader.readAsDataURL(e.target.files[0]);
                                 reader.onloadend = function () {
                                     var base64data = reader.result;
-                                    setFieldValue('profile_image', base64data);
+                                    setFieldValue('profile_base64', base64data);
                                 }
+                                setFieldValue('profile_image', e.target.files[0]);
                             }}
                         />
+                        <br />
+                        <ErrorMessage name="profile_image" />
                         <Button variant="contained" type="submit" fullWidth>Add </Button>
                     </Form>
                 </>)
@@ -96,22 +105,4 @@ const ProfileForm = () => {
     );
 };
 
-
 export default ProfileForm
-
-
-
-
-
-
-   // onChange={(e) => {
-                    //     let ans = e.target.files[0].type === 'image/jpeg';
-                    //     // setFieldValue('profile_pic', e.target.files[0]);
-                    //     var reader = new FileReader();
-                    //     reader.readAsDataURL(e.target.files[0]);
-                    //     reader.onloadend = function () {
-                    //         var base64data = reader.result;
-                    //         setmyImage(base64data)
-                    //     }
-                    //     console.log("aaaaaaaaa:::", e.target.files[0].type, URL.createObjectURL(e.target.files[0]))
-                    // 
